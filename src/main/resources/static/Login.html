@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="Login.css">
+</head>
+<body>
+<div class="login-container">
+    <h2>Login</h2>
+    <form action="#" method="POST">
+        <!-- User/Admin Select Box -->
+        <label for="role">Select Role:</label>
+        <select id="role" name="role" required>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <!-- Username Field -->
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+        <!-- Password Field -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+        <!-- Login Button -->
+        <button type="button" onclick="submitForm()">Login</button>
+        <br>
+        <br>
+        <!-- Google Login Button -->
+        <a href="/oauth2/authorization/google">
+            <button type="button">Login with Google</button>
+        </a>
+    </form>
+</div>
+</body>
+</html>
