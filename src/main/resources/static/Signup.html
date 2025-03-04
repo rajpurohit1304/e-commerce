@@ -3,142 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Signup</title>
-    <link rel="stylesheet" href="Signup.css">
+    <title>Signup</title>
 
-    <!-- Include jQuery (for AJAX) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <link rel="stylesheet" href="Signup.css">
     <script>
-        // Form Validation Function
-        function validateForm() {
-            let name = document.getElementById('name').value;
-            let email = document.getElementById('email').value;
-            let userName = document.getElementById('username').value;
+        function submitSignupForm(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form values
             let password = document.getElementById('password').value;
-            let confirmPassword = document.getElementById('confirm_password').value;
-            let gender = document.getElementById('gender').value;
+            let confirmPassword = document.getElementById('confirm-password').value;
 
-            // Validate Name: No Numbers Allowed
-            let nameRegex = /^[A-Za-z\s]+$/;
-            if (!nameRegex.test(name)) {
-                alert("Name must not contain numbers.");
-                return false;
-            }
-
-            // Validate Email: Should be in the format username@gmail.com
-            let emailRegex = /^[a-zA-Z0-9._-]+@gmail\.com$/;
-            if (!emailRegex.test(email)) {
-                alert("Please enter a valid Gmail address.");
-                return false;
-            }
-
-            // Validate Username: Must contain both letters and numbers
-            let usernameRegex = /^[A-Za-z]+\d+$/;
-            if (!usernameRegex.test(userName)) {
-                alert("Username must contain both letters and numbers.");
-                return false;
-            }
-
-            // Validate Password: At least 8 characters
-            if (password.length < 8) {
-                alert("Password must be at least 8 characters long.");
-                return false;
-            }
-
-            // Validate Confirm Password: Must match Password
+            // Check if passwords match
             if (password !== confirmPassword) {
-                alert("Password and Confirm Password must match.");
-                return false;
+                alert("Passwords do not match.");
+                return; // Stop form submission if passwords don't match
             }
 
-            // If validation is successful, return true to submit the form
-            return true;
+            let signupData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                userName: document.getElementById('username').value,
+                password: password, // Use the password from the password field
+                gender: document.getElementById('gender').value
+            };
+
+            // AJAX request to submit signup data to the backend
+            $.ajax({
+                url: 'http://localhost:8080/api/users/signup',
+                type: 'POST',
+                contentType: 'application/json', // Set content type to JSON
+                data: JSON.stringify(signupData),  // Send as JSON
+                success: function(response) {
+                    console.log(response);  // Log the response to the console
+                    alert(response);
+                    if (response === "User successfully signed up!" || response === "Admin login successful") {
+                        window.location.href = "dashboard_user.html"; // Redirect to the user dashboard
+                    } // Alert the response message (success or failure)
+                },
+                error: function(xhr, status, error) {
+                    console.log("Status: " + status);  // Log the status
+                    console.log("Error: " + error);    // Log the error
+                    console.log("Response Text: " + xhr.responseText); // Log response text
+                    alert("An error occurred. Please try again later.");
+                }
+            });
         }
-
-        // AJAX Function to Submit Form
-        function submitForm(event) {
-    event.preventDefault(); // Prevent form submission
-
-    if (!validateForm()) {
-        return; // Stop submission if validation fails
-    }
-
-    let formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        userName: document.getElementById('username').value,
-        password: document.getElementById('password').value,
-        gender: document.getElementById('gender').value
-    };
-
-    // AJAX request to submit form data to Spring Boot backend
-    $.ajax({
-        url: 'http://localhost:8080/api/users/signup',  // Correct API endpoint
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(formData),
-        success: function(response) {
-            console.log(response);  // Log the response to the console
-            if (response === "User successfully signed up!") {
-                alert("You have signed up successfully!");
-                window.location.href = "login.html"; // Redirect to login page
-            } else {
-                alert(response); // Show any failure message from the server
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log("Status: " + status);  // Log the status
-            console.log("Error: " + error);    // Log the error
-            console.log("Response Text: " + xhr.responseText); // Log response text
-            alert("An error occurred: " + error);
-        }
-    });
-}
-
     </script>
 </head>
 <body>
-
 <div class="container">
     <div class="signup-form-container">
-        <h2>Create Your Account</h2>
-        <form id="signup-form">
+        <h2>Signup</h2>
+        <form>
+            <!-- Two-Column Form Row -->
             <div class="form-row">
-                <!-- Left Column: Full Name Field -->
+                <!-- Name Field -->
                 <div class="input-group">
-                    <label for="name">Full Name:</label>
-                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
                 </div>
 
-                <!-- Right Column: Email Address Field -->
+                <!-- Email Field -->
                 <div class="input-group">
-                    <label for="email">Email Address:</label>
+                    <label for="email">Email:</label>
                     <input type="email" id="email" name="email" placeholder="Enter your email" required>
                 </div>
             </div>
 
             <div class="form-row">
-                <!-- Left Column: Username Field -->
+                <!-- Username Field -->
                 <div class="input-group">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
                 </div>
 
-                <!-- Right Column: Password Field -->
+                <!-- Password Field -->
                 <div class="input-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" placeholder="Create a password" required>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
             </div>
+
             <div class="form-row">
-                <!-- Left Column: Confirm Password Field i pushing -->
+                <!-- Confirm Password Field -->
                 <div class="input-group">
-                    <label for="confirm_password">Confirm Password:</label>
-                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
                 </div>
 
-                <!-- Right Column: Gender Select Box -->
+                <!-- Gender Field -->
                 <div class="input-group">
                     <label for="gender">Gender:</label>
                     <select id="gender" name="gender" required>
@@ -149,12 +104,11 @@
                 </div>
             </div>
 
-            <!-- Signup Button with onclick event -->
-            <button type="button" class="btn" onclick="submitForm(event)">Sign Up</button>
+            <!-- Signup Button -->
+            <button type="button" class="btn" onclick="submitSignupForm(event)">Signup</button>
         </form>
         <p>Already have an account? <a href="login.html">Login here</a></p>
     </div>
 </div>
-
 </body>
 </html>

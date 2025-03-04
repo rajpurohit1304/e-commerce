@@ -5,11 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="Login.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Form Validation Function for Login
+        function validateLoginForm() {
+            let username = document.getElementById('username').value;
+            let password = document.getElementById('password').value;
+
+            // Validate if Username and Password are not empty
+            if (username === "") {
+                alert("Username is required.");
+                return false;
+            }
+
+            if (password === "") {
+                alert("Password is required.");
+                return false;
+            }
+
+            return true;
+        }
+
+        // Submit Login Form via AJAX
+        function submitLoginForm(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            if (!validateLoginForm()) {
+                return; // Stop submission if validation fails
+            }
+
+            let loginData = {
+                role: document.getElementById('role').value,  // Role: user/admin
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            };
+
+            // AJAX request to submit login data to the backend
+            $.ajax({
+                url: 'http://localhost:8080/api/users/login',  // Correct API endpoint
+                type: 'POST',
+                contentType: 'application/json', // Set content type to JSON
+                data: JSON.stringify(loginData),  // Send as JSON
+                success: function(response) {
+                    console.log(response);  // Log the response to the console
+                    alert(response);  // Alert the response message (success or failure)
+                    if (response === "User login successful" || response === "Admin login successful") {
+                        window.location.href = "dashboard_user.html"; // Redirect to the user dashboard
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("Status: " + status);  // Log the status
+                    console.log("Error: " + error);    // Log the error
+                    console.log("Response Text: " + xhr.responseText); // Log response text
+                    alert("An error occurred. Please try again later.");
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 <div class="login-container">
     <h2>Login</h2>
-    <form action="#" method="POST">
+    <form>
         <!-- User/Admin Select Box -->
         <label for="role">Select Role:</label>
         <select id="role" name="role" required>
@@ -26,13 +83,11 @@
         <input type="password" id="password" name="password" placeholder="Enter your password" required>
 
         <!-- Login Button -->
-        <button type="button" onclick="submitForm()">Login</button>
+        <button type="button" onclick="submitLoginForm(event)">Login</button>
         <br>
         <br>
         <!-- Google Login Button -->
-        <a href="/oauth2/authorization/google">
-            <button type="button">Login with Google</button>
-        </a>
+        <a href="http://localhost:8080/oauth2/authorization/google">Login with Google</a>
     </form>
 </div>
 </body>
