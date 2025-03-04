@@ -49,9 +49,16 @@
                 success: function(response) {
                     console.log(response);  // Log the response to the console
                     alert(response);  // Alert the response message (success or failure)
-                    if (response === "User login successful" || response === "Admin login successful") {
+                    if (response === "User login successful")
+                    {
                         window.location.href = "dashboard_user.html"; // Redirect to the user dashboard
                     }
+                    else if(response === "Admin login successful")
+                    {
+                        window.location.href = "dashboard_admin.html"; // Redirect to the user dashboard
+                    }
+
+
                 },
                 error: function(xhr, status, error) {
                     console.log("Status: " + status);  // Log the status

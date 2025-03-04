@@ -4,93 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="dashboard_admin.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="dashboard_admin.js"></script>
+    <link rel="stylesheet" href="dashboard_admin.css"> <!-- Link to external CSS -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- For Font Awesome icons -->
 </head>
 <body>
-<div class="dashboard-container">
-    <!-- Header -->
-    <header>
-        <h1>Admin Dashboard</h1>
-        <button id="logout-btn">Logout</button>
-    </header>
-
-    <!-- Product Management Section -->
-    <section class="product-management">
-        <h2>Product Management</h2>
-
-        <!-- Add Product Form -->
-        <div class="form-container">
-            <h3>Add New Product</h3>
-            <form id="add-product-form">
-                <label for="product-name">Product Name:</label>
-                <input type="text" id="product-name" name="product-name" required>
-
-                <label for="product-description">Description:</label>
-                <textarea id="product-description" name="product-description" required></textarea>
-
-                <label for="product-price">Price:</label>
-                <input type="number" id="product-price" name="product-price" step="0.01" required>
-
-                <button type="submit">Add Product</button>
-            </form>
-        </div>
-
-        <!-- Product List -->
-        <div class="product-list">
-            <h3>Product List</h3>
-            <table id="product-table">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Product rows will be dynamically added here -->
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- Order Management Section -->
-    <section class="order-management">
-        <h2>Order Management</h2>
-
-        <!-- View User Orders -->
-        <div class="form-container">
-            <h3>View User Orders</h3>
-            <form id="view-orders-form">
-                <label for="user-id">User ID:</label>
-                <input type="number" id="user-id" name="user-id" required>
-
-                <button type="submit">View Orders</button>
-            </form>
-        </div>
-
-        <!-- Order List -->
-        <div class="order-list">
-            <h3>Order List</h3>
-            <table id="order-table">
-                <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>User ID</th>
-                    <th>Product ID</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Order rows will be dynamically added here -->
-                </tbody>
-            </table>
-        </div>
-    </section>
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Admin Dashboard</h2>
+    <ul>
+        <li><a href="javascript:void(0);" onclick="showSection('users')">Users</a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('products')">Products</a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('orders')">Orders</a></li>
+        <li><a href="javascript:void(0);" onclick="showSection('settings')">Settings</a></li>
+    </ul>
 </div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="search-box">
+            <input type="text" placeholder="Search...">
+            <button>Search</button>
+        </div>
+
+    </div>
+
+    <!-- Sections -->
+    <div id="users" class="content-section" style="display:none;">
+        <h3>Manage Users</h3>
+        <table>
+            <tr><th>User ID</th><th>Name</th><th>Email</th><th>Actions</th></tr>
+            <!-- Add user rows dynamically -->
+        </table>
+    </div>
+
+    <div id="products" class="content-section" style="display:none;">
+        <h3>Manage Products</h3>
+        <table>
+            <tr><th>Product ID</th><th>Name</th><th>Price</th><th>Actions</th></tr>
+            <!-- Add product rows dynamically -->
+        </table>
+    </div>
+
+    <div id="orders" class="content-section" style="display:none;">
+        <h3>Manage Orders</h3>
+        <table>
+            <tr><th>Order ID</th><th>User</th><th>Status</th><th>Total</th><th>Actions</th></tr>
+            <!-- Add order rows dynamically -->
+        </table>
+    </div>
+
+    <div id="settings" class="content-section" style="display:none;">
+        <h3>System Settings</h3>
+        <form>
+            <label for="site-name">Site Name:</label>
+            <input type="text" id="site-name">
+            <button type="submit">Save Settings</button>
+        </form>
+    </div>
+</div>
+<div class="user">
+<iframe src="../templates/User.html" width="800" height="600" title="Embedded Page"></iframe>
+</div>
+
+<script src="dashboard_admin.js"></script> <!-- Link to external JS -->
 </body>
 </html>
